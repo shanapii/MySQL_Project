@@ -1,0 +1,154 @@
+CREATE DATABASE LIBRARY;
+USE LIBRARY;
+
+CREATE TABLE BRANCH(
+BRANCH_NO INT PRIMARY KEY,
+MANAGER_ID INT,
+BRANCH_ADDRESS VARCHAR(100),
+CONTACT_NO BIGINT);
+INSERT INTO Branch (Branch_no, Manager_Id, Branch_address, Contact_no) VALUES
+(1, 1011, '123 Main Street',1234567890),
+(2, 1012, '456 Sub Street',4567890123),
+(3, 1013, '789 Oak Street',7890123456),
+(4, 1014, '321 Pkm Street',3216549870),
+(5, 1015, '654 Cdm Street',6549870123),
+(6, 1016, '789 Maple Street',7894561230),
+(7, 1017, '321 Ekm Street',3219876540),
+(8, 1018, '654 Oak Street',6543210987),
+(9, 1019, '123 Pkm Street',1237894560),
+(10, 1020, '456 Cdm Street',4563216540);
+
+CREATE TABLE EMPLOYEE(
+EMP_ID INT PRIMARY KEY,
+EMP_NAME VARCHAR(50),
+POSITION VARCHAR(30),
+SALARY INT,
+BRANCH_NO INT,
+FOREIGN KEY (BRANCH_NO) REFERENCES BRANCH(BRANCH_NO));
+INSERT INTO Employee (Emp_Id, Emp_name, Position, Salary, Branch_no) VALUES
+(101, 'John Doe', 'Manager', 50000.00, 1),
+(102, 'Jane Smith', 'Assistant Manager', 40000.00, 2),
+(103, 'Michael Johnson', 'Clerk', 30000.00, 3),
+(104, 'Emily Brown', 'Clerk', 30000.00, 4),
+(105, 'David Wilson', 'Security', 35000.00, 5),
+(106, 'Sarah Lee', 'Manager', 50000.00, 6),
+(107, 'Kevin Davis', 'Assistant Manager', 40000.00, 7),
+(108, 'Jennifer Taylor', 'Clerk', 30000.00, 8),
+(109, 'Robert Clark', 'Clerk', 30000.00, 9),
+(110, 'Michelle Martinez', 'Security', 35000.00, 10);
+
+CREATE TABLE CUSTOMER(
+CUSTOMER_ID INT PRIMARY KEY,
+CUSTOMER_NAME VARCHAR(50),
+CUSTOMER_ADDRESS VARCHAR(100),
+REG_DATE DATE);
+INSERT INTO Customer (Customer_Id, Customer_name, Customer_address, Reg_date) VALUES
+(201, 'Alice Johnson', '123 Maple Avenue', '2024-01-01'),
+(202, 'Bob Smith', '456 Oak Avenue', '2024-02-03'),
+(203, 'Charlie Brown', '789 Pkm Avenue', '2022-01-03'),
+(204, 'Diana Wilson', '321 Cdm Avenue', '2023-01-04'),
+(205, 'Eve Davis', '654 Ekm Avenue', '2020-01-06'),
+(206, 'Frank White', '789 Maple Avenue', '2024-01-06'),
+(207, 'Grace Taylor', '321 Ekm Avenue', '2021-03-07'),
+(208, 'Henry Harris', '654 Oak Avenue', '2024-01-08'),
+(209, 'Ivy Martin', '123 Pkm Avenue', '2004-01-29'),
+(210, 'Jack Jones', '456 Cdm Avenue', '2016-04-10');
+
+CREATE TABLE IssueStatus(
+ISSUE_ID INT PRIMARY KEY,
+ISSUED_CUST INT,
+ISSUED_BOOK_NAME VARCHAR(100),
+ISSUED_DATE DATE,
+ISBN_BOOK VARCHAR(40),
+FOREIGN KEY (ISSUED_CUST) REFERENCES CUSTOMER(CUSTOMER_ID),
+FOREIGN KEY (ISBN_BOOK) REFERENCES BOOKS(ISBN));
+INSERT INTO IssueStatus (Issue_Id, Issued_cust, Issued_book_name, IssueD_date, Isbn_book) VALUES
+(301, 201, 'Book1', '2024-01-01', 'ISBN1'),
+(302, 202, 'Book2', '2024-02-03', 'ISBN2'),
+(303, 203, 'Book3', '2022-01-03', 'ISBN3'),
+(304, 204, 'Book4', '2023-01-04', 'ISBN4'),
+(305, 205, 'Book5', '2020-01-06', 'ISBN5'),
+(306, 206, 'Book6', '2024-01-06', 'ISBN6'),
+(307, 207, 'Book7', '2021-03-07', 'ISBN7'),
+(308, 208, 'Book8', '2024-01-08', 'ISBN8'),
+(309, 209, 'Book9', '2004-01-29', 'ISBN9'),
+(310, 210, 'Book10', '2016-04-10', 'ISBN10');
+
+CREATE TABLE ReturnStatus(
+RETURN_ID INT PRIMARY KEY,
+RETURN_CUST INT,
+RETURN_BOOK_NAME VARCHAR(100),
+RETURN_DATE DATE,
+ISBN_BOOK2 VARCHAR(40),
+FOREIGN KEY (RETURN_CUST) REFERENCES CUSTOMER(CUSTOMER_ID),
+FOREIGN KEY (ISBN_BOOK2) REFERENCES BOOKS(ISBN));
+INSERT INTO ReturnStatus (Return_Id, Return_cust, Return_book_name, Return_date, Isbn_book2) VALUES
+(401, 201, 'Book1', '2024-01-08', 'ISBN1'),
+(402, 202, 'Book2', '2024-01-09', 'ISBN2'),
+(403, 203, 'Book3', '2024-01-10', 'ISBN3'),
+(404, 204, 'Book4', '2024-01-11', 'ISBN4'),
+(405, 205, 'Book5', '2024-01-12', 'ISBN5'),
+(406, 206, 'Book6', '2024-01-13', 'ISBN6'),
+(407, 207, 'Book7', '2024-01-14', 'ISBN7'),
+(408, 208, 'Book8', '2024-01-15', 'ISBN8'),
+(409, 209, 'Book9', '2024-01-16', 'ISBN9'),
+(410, 210, 'Book10', '2024-01-17', 'ISBN10');
+
+CREATE TABLE BOOKS(
+ISBN VARCHAR(35) PRIMARY KEY,
+BOOK_TITLE VARCHAR(90),
+CATEGORY VARCHAR(30),
+RENTAL_PRICE INT,
+ISBN_BOOK INT,
+STATUS ENUM('YES','NO'),
+AUTHOR VARCHAR(50),
+PUBLISHER VARCHAR(40));
+INSERT INTO Books (ISBN, Book_title, Category, Rental_Price, Status, Author, Publisher) VALUES
+('ISBN1', 'Wish i could tell you', 'Fiction', 10.99, 'yes', 'Durjoy Datta', 'Penguin India'),
+('ISBN2', 'Homo Deus', 'Non-Fiction', 12.99, 'yes', 'Yuval Harari', 'Manjul Books'),
+('ISBN3', 'Cosmos', 'Science', 15.99, 'yes', 'Carl Sagan', 'DC books'),
+('ISBN4', 'Marakkar', 'History', 9.99, 'no', 'Dr.Dinesh Raj', 'Mathruboomi books'),
+('ISBN5', 'Wings of Fire', 'Biography', 11.99, 'yes', 'APJ', 'Manjul books'),
+('ISBN6', 'Harry Potter', 'Fantasy', 13.99, 'yes', 'JK Rowling', 'Ambuja Books'),
+('ISBN7', 'Francis Ittykkora', 'Mystery', 14.99, 'no', 'TD Ramakrishnan', 'DC Books'),
+('ISBN8', 'Manja Veyil Maranangal', 'Thriller', 16.99, 'yes', 'Benyamin', 'Kairali books'),
+('ISBN9', 'The Secret', 'Self-Help', 17.99, 'yes', 'Ronda Bern', 'Green Publications'),
+('ISBN10', 'Twisted Love', 'Romance', 18.99, 'yes', 'Ana Huang', 'Penguin India');
+
+
+# 1. Retrieve the book title, category, and rental price of all available books.
+SELECT BOOK_TITLE,CATEGORY,RENTAL_PRICE FROM BOOKS WHERE STATUS='YES';
+
+# 2. List the employee names and their respective salaries in descending order of salary.
+SELECT EMP_NAME,SALARY FROM EMPLOYEE ORDER BY SALARY DESC;
+
+# 3. Retrieve the book titles and the corresponding customers who have issued those books.
+SELECT ISSUED_CUST,ISSUED_BOOK_NAME FROM ISSUESTATUS;
+SELECT CUSTOMER_ID,CUSTOMER_NAME FROM CUSTOMER;
+
+# 4. Display the total count of books in each category.
+SELECT CATEGORY,COUNT(*) AS TOTAL_COUNT FROM BOOKS GROUP BY CATEGORY;
+
+# 5. Retrieve the employee names and their positions for the employees whose salaries are above Rs.50,000.
+SELECT EMP_NAME,POSITION FROM EMPLOYEE WHERE SALARY>=50000;
+
+# 6. List the customer names who registered before 2022-01-01 and have not issued any books yet.
+SELECT CUSTOMER_NAME FROM CUSTOMER WHERE REG_DATE<'2022-01-01'
+AND CUSTOMER_ID NOT IN(SELECT ISSUED_CUST FROM ISSUESTATUS);
+
+# 7. Display the branch numbers and the total count of employees in each branch.
+SELECT BRANCH_NO,COUNT(*) AS TOTAL_EMPLOYEES FROM EMPLOYEE GROUP BY BRANCH_NO;
+
+# 8. Display the names of customers who have issued books in the month of June 2023.
+SELECT C.CUSTOMER_NAME FROM ISSUESTATUS I
+JOIN CUSTOMER C ON I.ISSUED_CUST = C.CUSTOMER_ID
+WHERE MONTH(I.ISSUED_DATE)=6 AND YEAR(I.ISSUED_DATE)=2023;
+
+# 9. Retrieve book_title from book table containing history.
+SELECT BOOK_TITLE FROM BOOKS WHERE CATEGORY ='HISTORY';
+
+# 10. Retrieve the branch numbers along with the count of employees for branches having more than 5 employees.
+SELECT BRANCH_NO,COUNT(*) AS TOTAL_EMPLOYEES FROM EMPLOYEE GROUP BY BRANCH_NO HAVING TOTAL_EMPLOYEES> 5;
+
+
+
